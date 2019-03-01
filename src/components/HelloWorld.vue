@@ -13,36 +13,13 @@
         <th class="head">HORAS</th>
       </tr>
       <!-- Cuerpo -->
-      <tr>
-        <!-- fila 1 -->
-        <td>05:16</td>
-        <td>AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)</td>
+      <tr v-for="(item, index) in hours" :key="index">
+        <!-- fila 1 col1 -->
+        <td rowspan="1" colspan="1">{{item.texto}}</td>
+        <!-- fila 1 col2 -->
+        <td :rowspan="1" :colspan="1">{{item.texto}}</td>
       </tr>
-      <tr>
-        <!-- fila 2 -->
-        <td>05:16</td>
-        <td>AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)</td>
-      </tr>
-      <tr>
-        <!-- fila 3 -->
-        <td>05:16</td>
-        <td>AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)</td>
-      </tr>
-      <tr>
-        <!-- fila 4 -->
-        <td>05:16</td>
-        <td>AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)</td>
-      </tr>
-      <tr>
-        <!-- fila 5 -->
-        <td>05:16</td>
-        <td>AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)</td>
-      </tr>
-      <tr>
-        <!-- fila 6 -->
-        <td>05:16</td>
-        <td>AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)</td>
-      </tr>
+      
     </table>
   </div>
   
@@ -53,6 +30,40 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  data () {
+    return {
+      hours: [
+        {texto: '05:15'},
+        {texto: '05:15',},
+        {texto: '05:15'},
+        {texto: '05:15'},
+        {texto: '05:15'},
+        {texto: '05:15'},
+        {texto: '05:15'},
+        {texto: '05:15'},
+        {texto: '05:30'},
+        {texto: '05:45'},
+        {texto: '06:00'},
+        {texto: '06:30'},
+        {texto: '06:45'},
+        {texto: '07:00'},
+       ],
+      // dayMonday: [
+      //   {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', rowspan: 2, colspan: 2},
+      //   {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', rowspan: 3, colspan: 2},
+      //   {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', rowspan: 1, colspan: 2}
+      // ]
+      
+    }
+  },
+  created () {
+
+  },
+  methods: {
+    // createTable() {
+
+    // }
   }
 }
 </script>
