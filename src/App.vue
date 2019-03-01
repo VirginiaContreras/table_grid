@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <HelloWorld msg="PROGRAMACION SEMANA DEL 07 AL 13 DE MAYO DEL 2018"/>
   </div>
 </template>
 
