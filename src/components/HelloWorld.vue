@@ -1,25 +1,47 @@
 <template>
   <div>
-    <table class="minimalistBlack">
-      <tr>
-        <th class="head">HORAS</th>
-        <th class="head">LUNES</th> 
-        <th class="head">MARTES</th>
-        <th class="head">MIERCOLES</th>
-        <th class="head">JUEVES</th>
-        <th class="head">VIERNES</th>
-        <th class="head">SABADO</th>
-        <th class="head">DOMINGO</th>
-        <th class="head">HORAS</th>
-      </tr>
+    <table id="schedule-table" class="minimalistBlack">
+      <thead>
+        <tr>
+          <th class="head">HORAS</th>
+          <th class="head">LUNES</th> 
+          <th class="head">MARTES</th>
+          <th class="head">MIERCOLES</th>
+          <th class="head">JUEVES</th>
+          <th class="head">VIERNES</th>
+          <th class="head">SABADO</th>
+          <th class="head">DOMINGO</th>
+          <th class="head">HORAS</th>
+        </tr>
+      </thead>
       <!-- Cuerpo -->
-      <tr v-for="(item, index) in hours" :key="index">
-        <!-- fila 1 col1 -->
-        <td rowspan="1" colspan="1">{{item.texto}}</td>
-        <!-- fila 1 col2 -->
-        <td :rowspan="1" :colspan="1">{{item.texto}}</td>
-      </tr>
-      
+      <tbody>
+        <tr v-for="(item, index) in hours" :key="index">
+          <td>{{ item.texto }}</td>
+          <td class="cell" :hour="item.texto" :day="1" colspan="1" rowspan="1"></td>
+          <td class="cell" :hour="item.texto" :day="2" colspan="1" rowspan="1"></td>
+          <td class="cell" :hour="item.texto" :day="3" colspan="1" rowspan="1"></td>
+          <td class="cell" :hour="item.texto" :day="4" colspan="1" rowspan="1"></td>
+          <td class="cell" :hour="item.texto" :day="5" colspan="1" rowspan="1"></td>
+          <td class="cell" :hour="item.texto" :day="6" colspan="1" rowspan="1"></td>
+          <td class="cell" :hour="item.texto" :day="7" colspan="1" rowspan="1"></td>
+          <td>{{ item.texto }}</td>
+        </tr>
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <th class="head">HORAS</th>
+          <th class="head">LUNES</th> 
+          <th class="head">MARTES</th>
+          <th class="head">MIERCOLES</th>
+          <th class="head">JUEVES</th>
+          <th class="head">VIERNES</th>
+          <th class="head">SABADO</th>
+          <th class="head">DOMINGO</th>
+          <th class="head">HORAS</th>
+        </tr>
+      </tfoot>
     </table>
   </div>
   
@@ -31,39 +53,102 @@ export default {
   props: {
     msg: String
   },
-  data () {
-    return {
-      hours: [
-        {texto: '05:15'},
-        {texto: '05:15',},
-        {texto: '05:15'},
-        {texto: '05:15'},
-        {texto: '05:15'},
-        {texto: '05:15'},
-        {texto: '05:15'},
-        {texto: '05:15'},
-        {texto: '05:30'},
-        {texto: '05:45'},
-        {texto: '06:00'},
-        {texto: '06:30'},
-        {texto: '06:45'},
-        {texto: '07:00'},
-       ],
-      // dayMonday: [
-      //   {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', rowspan: 2, colspan: 2},
-      //   {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', rowspan: 3, colspan: 2},
-      //   {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', rowspan: 1, colspan: 2}
-      // ]
-      
-    }
-  },
-  created () {
-
-  },
   methods: {
     // createTable() {
 
     // }
+  },
+  data () {
+    return {
+      hours: [
+        {texto: '05:16'},
+        {texto: '05:30',},
+        {texto: '06:00'},
+        {texto: '06:25'},
+        {texto: '06:30'},
+        {texto: '06:50'},
+        {texto: '07:00'},
+        {texto: '07:30'},
+        {texto: '08:00'},
+        {texto: '08:20'},
+        {texto: '08:30'},
+        {texto: '08:35'},
+        {texto: '09:00'},
+        {texto: '09:30'},
+       ],
+      schedule: [
+        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', hourstart: '05:16', hourend: '06:49', days: [1, 2, 3, 4, 5]},
+        {texto: 'AMERICA NOTICIAS: PRIMERA EDICION (GP)', hourstart: '06:50', hourend: '08:19', days: [1, 2, 3, 4, 5]},
+        {texto: 'AMERICA DEPORTES (G)', hourstart: '08:20', hourend: '08:29', days: [1, 2, 3, 4, 5]},
+      ] 
+    }
+  },
+  mounted() {
+    let list = document.getElementsByClassName('cell');
+
+    //por cada elemento del array schedule
+    this.schedule.forEach(item => {
+
+      //recorrer cada celda del horario
+      Array.from(list).forEach((cell) => {
+        //console.log(cell.getAttribute('hour'));
+        let day = parseInt(cell.getAttribute('day'));
+        let hour = cell.getAttribute('hour');
+
+        if((item.hourstart <= hour && item.hourend > hour) && item.days.includes(day)){
+          cell.innerHTML = item.texto;
+        }
+      });
+
+    });
+
+    //leer tabla y combinar celdas iguales
+    let tbl = document.getElementById('schedule-table');
+    let rows = tbl.getElementsByTagName('tr');
+
+    //recorrer filas
+    for (let i = 0; i < rows.length; i++){
+
+      let cells = rows[i].getElementsByClassName('cell');
+
+      //recorrer celdas
+      for (let j = 0; j < cells.length; j++) {
+
+        if((j - 1) >= 0){
+          if(cells[j].innerHTML === cells[j - 1].innerHTML) {
+
+            let actualColspan = cells[j - 1].getAttribute('colspan');
+            cells[j - 1].setAttribute('colspan', parseInt(actualColspan) + 1);
+            cells[j].remove();
+            j = 0;
+          } 
+        }
+
+      }
+      
+    }
+    
+    //recorrer columnas
+    for (let i = 0; i < rows.length; i++){
+
+      if((i - 1) >= 0){
+        let cell = rows[i].getElementsByClassName('cell');
+        let lastCell = rows[i - 1].getElementsByClassName('cell');
+
+        if(typeof cell[0] != 'undefined' && typeof lastCell[0] != 'undefined'){
+          if(cell[0].innerHTML == lastCell[0].innerHTML) {
+
+            let actualRowspan = lastCell[0].getAttribute('rowspan');
+            lastCell[0].setAttribute('rowspan', parseInt(actualRowspan) + 1);
+            cell[0].remove();
+            i = 0;
+          } 
+        }
+
+      }
+      
+    }
+
   }
 }
 </script>
