@@ -80,6 +80,11 @@ export default {
         {texto: 'AMERICA NOTICIAS: PRIMERA EDICION: LOCAL (GP)', hourstart: '05:16', hourend: '06:49', days: [1, 2, 3, 4, 5]},
         {texto: 'AMERICA NOTICIAS: PRIMERA EDICION (GP)', hourstart: '06:50', hourend: '08:19', days: [1, 2, 3, 4, 5]},
         {texto: 'AMERICA DEPORTES (G)', hourstart: '08:20', hourend: '08:29', days: [1, 2, 3, 4, 5]},
+        {texto: 'AMERICA DEPORTES (G)', hourstart: '08:20', hourend: '08:29', days: [1, 2, 3, 4, 5]},
+        {texto: 'AMERICA NOTICIAS: EDICIÓN DOMINICAL (GP)', hourstart: '08:20', hourend: '08:29', days: [7]},
+        {texto: 'ESTAS EN TODAS (GP)', hourstart: '08:20', hourend: '08:29', days: [6]},
+        {texto: 'AMÉRICA ESPECTÁCULOS (REPETICIÓN)', hourstart: '05:30', hourend: '06:25', days: [6]},
+        {texto: 'AMÉRICA NOTICIAS MATUTINO (GP)', hourstart: '06:25', hourend: '06:50', days: [6]},
       ] 
     }
   },
@@ -91,7 +96,7 @@ export default {
 
       //recorrer cada celda del horario
       Array.from(list).forEach((cell) => {
-        //console.log(cell.getAttribute('hour'));
+        console.log(cell.getAttribute('hour'));
         let day = parseInt(cell.getAttribute('day'));
         let hour = cell.getAttribute('hour');
 
@@ -106,7 +111,7 @@ export default {
     let tbl = document.getElementById('schedule-table');
     let rows = tbl.getElementsByTagName('tr');
 
-    //recorrer filas
+    //recorrer columnas
     for (let i = 0; i < rows.length; i++){
 
       let cells = rows[i].getElementsByClassName('cell');
@@ -128,26 +133,33 @@ export default {
       
     }
     
-    //recorrer columnas
+    //recorrer filas
     for (let i = 0; i < rows.length; i++){
-
-      if((i - 1) >= 0){
+      console.log(i, '2')
+      if( i >= 2){
+        console.log(i, 'i')
         let cell = rows[i].getElementsByClassName('cell');
         let lastCell = rows[i - 1].getElementsByClassName('cell');
 
-        if(typeof cell[0] != 'undefined' && typeof lastCell[0] != 'undefined'){
-          if(cell[0].innerHTML == lastCell[0].innerHTML) {
+        console.log(cell, 'cell')
+        console.log(lastCell, 'lastCell')
 
-            let actualRowspan = lastCell[0].getAttribute('rowspan');
-            lastCell[0].setAttribute('rowspan', parseInt(actualRowspan) + 1);
-            cell[0].remove();
-            i = 0;
-          } 
-        }
+        // Valida si las celdas no estan vacias  
+        // if(typeof cell[0] != 'undefined' && typeof lastCell[0] != 'undefined'){
 
+        // if(cell[0].innerHTML == lastCell[0].innerHTML) {
+
+        //   let actualRowspan = lastCell[0].getAttribute('rowspan');
+        //   console.log(actualRowspan, 'actualRowspan')
+        //   lastCell[0].setAttribute('rowspan', parseInt(actualRowspan) + 1);
+        //     // cell[0].remove();
+        //     // i = 0;
+        // } 
+      // }
       }
       
     }
+
 
   }
 }
